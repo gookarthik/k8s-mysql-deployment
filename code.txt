@@ -1,0 +1,22 @@
+To deploy mySQL o Kubernetes
+===========================
+
+Source:  https://kubernetes.io/docs/tasks/run-application/run-single-instance-stateful-application/
+
+sudo su
+mkdir test
+cd test
+vi mysql-deployment.yaml
+vi mysql-pv.yaml
+kubectl apply -f https://k8s.io/examples/application/mysql/mysql-pv.yaml
+kubectl apply -f https://k8s.io/examples/application/mysql/mysql-deployment.yaml
+kubectl describe deployment mysql
+kubectl get pods -l app=mysql
+kubectl describe pvc mysql-pv-claim
+kubectl run -it --rm --image=mysql:5.6 --restart=Never mysql-client -- mysql -h mysql -ppassword
+
+Deleting
+-------
+kubectl delete deployment,svc mysql
+kubectl delete pvc mysql-pv-claim
+kubectl delete pv mysql-pv-volume
